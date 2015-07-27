@@ -47,18 +47,18 @@ def check_for_root():
 	print(W+"["+G+"OK"+W+"]")
 
 def check_for_binarys(binarys_array=[]):
-	paths = os.environ["PATH"].split(':') #Tous les répertoires contenant des executables.
-	for needed_binary in binarys_array:
-		for path in paths:
-			if os.path.isfile(path+'/'+needed_binary[0]):
-				needed_binary[1] = True
+    paths = os.environ["PATH"].split(':') #Tous les répertoires contenant des executables.
+    for needed_binary in binarys_array:
+        for path in paths:
+            if os.path.isfile(path+'/'+needed_binary[0]):
+                needed_binary[1] = True
 
-	for needed_binary in binarys_array:
-		formated_print('cheking if '+needed_binary[0]+" is installed",lchar="")
-		if not needed_binary[1]:
-			print(W+"["+R+"error"+W+"]")
-	        sys.exit(1)
-		print(W+"["+G+"OK"+W+"]")
+    for needed_binary in binarys_array:
+        formated_print('cheking if '+needed_binary[0]+" is installed",lchar="")
+        if not needed_binary[1]:
+            print(W+"["+R+"error"+W+"]")
+            sys.exit(1)
+        print(W+"["+G+"OK"+W+"]")
 
 def check_file_exist_and_is_writeateble(file_path=""):
     name = file_path.split('/')[-1] #getting the last element of the file_path

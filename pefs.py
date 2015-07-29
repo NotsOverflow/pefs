@@ -14,7 +14,6 @@ needed_binarys = [
                     ['iptables',False],
                     ['arpspoof',False],
                     ['netstat',False],
-                    ['sslstrip',False],
                     ['timeout', False]
                  ]
 ipv4forward = "/proc/sys/net/ipv4/ip_forward"
@@ -47,12 +46,14 @@ def print_err():
     print(W+"["+R+"error"+W+"]")
 def print_timeout():
     print(W+"["+O+"Timeout"+W+"]")
+def print_info(string):
+    formated_print(string,align="^",fchar="\n",lchar="\n\n")
 
-def formated_print(string='',length='60',char='.',lchar='\n',color=GR,align="<"):
+def formated_print(string='',length='60',char='.',lchar='\n',fchar="",color=GR,align="<"):
     if not check_for_strings_value([string,length,char,lchar]):
         sys.exit("\n\n"+R+"formated_print should only get strings as input!"+W)
     the_format = "{0:%s%s%s.%s}" % (char,align,length,length)
-    print(color+the_format.format(string)+W,end=lchar)
+    print(color+fchar+the_format.format(string)+W,end=lchar)
 
 def check_for_linux():
     formated_print('cheking if it is run on linux',lchar="")
@@ -119,7 +120,7 @@ def runcommand_with_timeout(command=[],timeout="3"):
     return stdout, stderr, proc.returncode
 
 def get_gateways():
-    formated_print("Gathering network info",align="^")
+    print_info("Gathering network info")
     stdout, stderr, rcode = runcommand_with_timeout(["hostname", "-I"])
     if rcode != 0:
         sys.exit("\n\n"+R+"Warning! could not run netstat, exiting..."+W)
@@ -136,7 +137,7 @@ def get_gateways():
 
 
 def checking_function():
-    formated_print("Cheking for requirements",align="^")
+    print_info("Cheking for requirements")
     check_for_linux()
     check_for_root()
     check_for_binarys(needed_binarys)
